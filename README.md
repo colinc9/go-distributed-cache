@@ -1,1 +1,1 @@
-# go-distrubuted-cache
+# go-distributed-cache
