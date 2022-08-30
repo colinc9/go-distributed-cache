@@ -1,0 +1,37 @@
+{
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "inferenceAccelerators": [],
+    "containerDefinitions": [
+        {
+            "name": "app",
+            "image": "app-repository:latest",
+            "resourceRequirements": null,
+            "essential": true,
+            "portMappings": [
+                {
+                    "containerPort": "8080",
+                    "protocol": "tcp"
+                }
+                
+            ],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "AppInfraStack-appserviceTaskDefappLogGroup94DFEA87-yMPwMyFAMA92",
+                    "awslogs-region": "us-west-2",
+                    "awslogs-stream-prefix": "app-container"
+                }
+            }
+        }
+    ],
+    "volumes": [],
+    "networkMode": "awsvpc",
+    "memory": "512",
+    "cpu": "256",
+    "executionRoleArn": "arn:aws:iam::085839801091:role/app-execution-role",
+    "family": "app-task-definition",
+    "taskRoleArn": "",
+    "placementConstraints": []
+}
