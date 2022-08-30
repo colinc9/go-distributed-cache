@@ -4,6 +4,7 @@ import (
 	"github.com/colinc9/go-distributed-cache/pkg/config"
 	"github.com/colinc9/go-distributed-cache/pkg/model"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 )
 
@@ -52,6 +53,7 @@ func Set(c *gin.Context) {
 }
 
 func HealthCheck(c *gin.Context) {
+	log.Printf("server is listening...")
 	c.IndentedJSON(http.StatusOK, "Alive!")
 }
 
