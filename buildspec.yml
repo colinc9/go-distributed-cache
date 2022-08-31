@@ -10,6 +10,7 @@ phases:
   
   build:
     commands:
+      - mkdir dc-v2
       - go build -o dc-v2 ./...
   
 
