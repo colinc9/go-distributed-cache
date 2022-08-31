@@ -19,7 +19,7 @@
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
-                    "awslogs-group": "AppInfraStack-appserviceTaskDefappLogGroup94DFEA87-ojsQ5Kzspqgu",
+                    "awslogs-group": "AppInfraStack-appserviceTaskDefappLogGroup94DFEA87-cBBx53nuPjeK",
                     "awslogs-region": "us-west-2",
                     "awslogs-stream-prefix": "app-container"
                 }

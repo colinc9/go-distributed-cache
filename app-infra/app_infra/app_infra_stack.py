@@ -51,4 +51,3 @@ class AppInfraStack(cdk.Stack):
             desired_count=2,
             task_image_options=task_image_options,
             public_load_balancer=True)
-
