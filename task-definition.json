@@ -13,8 +13,11 @@
                 {
                     "containerPort": "8080",
                     "protocol": "tcp"
+                },
+                {
+                    "containerPort": "8081",
+                    "protocol": "tcp"
                 }
-
             ],
             "logConfiguration": {
                 "logDriver": "awslogs",
@@ -32,6 +35,6 @@
     "cpu": "256",
     "executionRoleArn": "arn:aws:iam::843374396866:role/app-execution-role",
     "family": "app-task-definition",
-    "taskRoleArn": "",
+    "taskRoleArn": "arn:aws:iam::843374396866:role/app-task-role",
     "placementConstraints": []
 }

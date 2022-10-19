@@ -13,6 +13,7 @@ var cache *model.LRUCache
 func Run() error {
 	server := setGinRouter()
 	server.Run(config.GetDefaultInsCfg().AppAddress)
+
 	return nil
 }
 
@@ -56,4 +57,9 @@ func HealthCheck(c *gin.Context) {
 	log.Printf("server is listening...")
 	c.IndentedJSON(http.StatusOK, "Alive!")
 }
+
+
+
+
+
 

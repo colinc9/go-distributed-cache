@@ -51,3 +51,7 @@ class AppInfraStack(cdk.Stack):
             desired_count=2,
             task_image_options=task_image_options,
             public_load_balancer=True)
+
+        task_role = iam.Role(self, "dc-task-role", assumed_by=iam.ServicePrincipal("ecs-tasks.amazonaws.com"), role_name="app-task-role")
+
+        task_role.add_to_policy(iam.PolicyStatement(effect=iam.Effect.ALLOW, resources=["*"], actions=["ecs:*", "ec2:DescribeNetworkInterfaces"]))
