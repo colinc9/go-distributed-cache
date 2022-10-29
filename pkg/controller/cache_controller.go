@@ -3,6 +3,7 @@ package controller
 import (
 	"github.com/colinc9/go-distributed-cache/pkg/config"
 	"github.com/colinc9/go-distributed-cache/pkg/model"
+	"github.com/colinc9/go-distributed-cache/pkg/network"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
@@ -12,6 +13,9 @@ var cache *model.LRUCache
 
 func Run() error {
 	server := setGinRouter()
+	go func() {
+		network.ListenTcp()
+	}()
 	server.Run(config.GetDefaultInsCfg().AppAddress)
 
 	return nil
@@ -27,6 +31,7 @@ func setGinRouter() *gin.Engine {
 	router.GET("/", HealthCheck)
 	router.GET("/get/:key", Get)
 	router.POST("/set/:key/value/:value",Set)
+	router.GET("/test", SendMsgToTask)
 	return router
 }
 
@@ -55,6 +60,11 @@ func Set(c *gin.Context) {
 
 func HealthCheck(c *gin.Context) {
 	log.Printf("server is listening...")
+	c.IndentedJSON(http.StatusOK, "Alive!")
+}
+
+func SendMsgToTask(c *gin.Context) {
+	network.DialTcp()
 	c.IndentedJSON(http.StatusOK, "Alive!")
 }
 

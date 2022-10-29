@@ -9,15 +9,15 @@ import (
 )
 
 var MyAddress string
-var readWriteDdl time.Duration = 5 * 10^9
+var readWriteDdl time.Duration = 5 * time.Minute
 
-func listenTcp() error {
+func ListenTcp() error {
 	listener, err := net.Listen("tcp", MyAddress)
 	if err != nil {
 		log.Printf(err.Error())
 	}
 	defer func() { _ = listener.Close() }()
-	log.Printf("bound to &q", listener.Addr())
+	log.Printf("bound to %+v", listener.Addr())
 	for {
 		conn, err := listener.Accept()
 
