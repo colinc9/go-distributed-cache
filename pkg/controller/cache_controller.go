@@ -4,18 +4,25 @@ import (
 	"github.com/colinc9/go-distributed-cache/pkg/config"
 	"github.com/colinc9/go-distributed-cache/pkg/model"
 	"github.com/colinc9/go-distributed-cache/pkg/network"
+	"github.com/colinc9/go-distributed-cache/pkg/service"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 )
 
-var cache *model.LRUCache
+var cacheService *service.CacheService
 
 func Run() error {
 	server := setGinRouter()
 	go func() {
 		network.ListenTcp()
 	}()
+	LRUcache, error := model.NewLRUCache(10)
+	if error != nil{
+		cacheService = & service.CacheService{
+			Cache: LRUcache,
+		}
+	}
 	server.Run(config.GetDefaultInsCfg().AppAddress)
 
 	return nil
@@ -24,10 +31,7 @@ func Run() error {
 func setGinRouter() *gin.Engine {
 	// Creates default gin router with Logger and Recovery middleware already attached
 	router := gin.Default()
-	LRUcache, error := model.NewLRUCache(10)
-	if error != nil{
-		cache = LRUcache
-	}
+
 	router.GET("/", HealthCheck)
 	router.GET("/get/:key", Get)
 	router.POST("/set/:key/value/:value",Set)
@@ -36,7 +40,7 @@ func setGinRouter() *gin.Engine {
 }
 
 func Get(c *gin.Context) {
-	value, ok := cache.Get(c.Param("key"))
+	value, ok := cacheService.Get(c.Param("key"))
 	if ok {
 		c.IndentedJSON(http.StatusOK, value)
 	} else {
@@ -49,7 +53,7 @@ func Set(c *gin.Context) {
 	key := c.Param("key")
 	value := c.Param("value")
 
-	_, _, ok := cache.Set(key, value)
+	_, _, ok := cacheService.Set(key, value)
 
 	if ok {
 		c.IndentedJSON(http.StatusOK, value)
@@ -64,7 +68,8 @@ func HealthCheck(c *gin.Context) {
 }
 
 func SendMsgToTask(c *gin.Context) {
-	network.DialTcp()
+	msg := network.Message{Type: network.Test}
+	network.DialTcp(&msg)
 	c.IndentedJSON(http.StatusOK, "Alive!")
 }
 
