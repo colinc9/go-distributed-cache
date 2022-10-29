@@ -1,6 +1,8 @@
 package model
 
-import "time"
+import (
+	"time"
+)
 
 type Cache interface {
 	Get(key interface{}) (interface{}, bool)

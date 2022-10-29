@@ -1,10 +1,8 @@
 package network
 
 import (
-	"bufio"
 	"log"
 	"net"
-	"strings"
 	"time"
 )
 
@@ -33,17 +31,13 @@ func ListenTcp() error {
 			defer func() {
 				c.Close()
 			}()
-
-			netData, err := bufio.NewReader(c).ReadString('\n')
+			msg, err := Decoder(c)
 			if err != nil {
 				log.Println(err.Error())
 				return
 			}
-			temp := strings.TrimSpace(string(netData))
-			if temp == "STOP" {
-				return
-			}
-			log.Printf("received: %q", temp)
+			log.Printf("received: %+v", *msg)
+
 		}(conn)
 	}
 }
