@@ -6,6 +6,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/ecs"
+	"github.com/colinc9/go-distributed-cache/pkg/service/tcp"
 	"golang.org/x/net/context"
 	"io/ioutil"
 	"log"
@@ -49,7 +50,7 @@ func getAddresses() {
 		return
 	}
 	currIp := currTask.Networks[0].IPv4Addresses[0]
-	MyAddress = currIp
+	tcp.MyAddress = currIp
 	log.Printf("tasks metadata: %+v ", tasks)
 	var targets []string
 	for _, task := range tasks.Tasks {
@@ -72,7 +73,7 @@ func getAddresses() {
 
 		}
 	}
-	TargetAddress = targets
+	tcp.TargetAddress = targets
 }
 
 func getTasks() (*ecs.DescribeTasksOutput, error) {

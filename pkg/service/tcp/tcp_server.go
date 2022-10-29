@@ -1,6 +1,7 @@
-package network
+package tcp
 
 import (
+	"github.com/colinc9/go-distributed-cache/pkg/service"
 	"log"
 	"net"
 	"time"
@@ -37,7 +38,7 @@ func ListenTcp() error {
 				return
 			}
 			log.Printf("received: %+v", *msg)
-
+			service.HandelMsg(msg)
 		}(conn)
 	}
 }

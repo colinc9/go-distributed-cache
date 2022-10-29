@@ -1,4 +1,4 @@
-package network
+package tcp
 
 import (
 	"encoding/gob"
@@ -15,7 +15,7 @@ const (
 
 type Message struct {
 	Type MessageType
-	Key    interface{}
+	Key  interface{}
 	Value  interface{}
 }
 

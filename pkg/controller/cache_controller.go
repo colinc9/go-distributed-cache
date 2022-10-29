@@ -3,8 +3,8 @@ package controller
 import (
 	"github.com/colinc9/go-distributed-cache/pkg/config"
 	"github.com/colinc9/go-distributed-cache/pkg/model"
-	"github.com/colinc9/go-distributed-cache/pkg/network"
 	"github.com/colinc9/go-distributed-cache/pkg/service"
+	"github.com/colinc9/go-distributed-cache/pkg/service/tcp"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
@@ -15,11 +15,14 @@ var cacheService *service.CacheService
 func Run() error {
 	server := setGinRouter()
 	go func() {
-		network.ListenTcp()
+		tcp.ListenTcp()
 	}()
 	LRUcache, error := model.NewLRUCache(10)
 	if error != nil{
-		cacheService = & service.CacheService{
+		cacheService = &service.CacheService{
+			Cache: LRUcache,
+		}
+		service.TcpService = &service.TCPService{
 			Cache: LRUcache,
 		}
 	}
@@ -68,8 +71,8 @@ func HealthCheck(c *gin.Context) {
 }
 
 func SendMsgToTask(c *gin.Context) {
-	msg := network.Message{Type: network.Test}
-	network.DialTcp(&msg)
+	msg := tcp.Message{Type: tcp.Test}
+	tcp.DialTcp(&msg)
 	c.IndentedJSON(http.StatusOK, "Alive!")
 }
 
