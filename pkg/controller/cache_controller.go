@@ -22,7 +22,7 @@ func Run() error {
 		cacheService = &service.CacheService{
 			Cache: LRUcache,
 		}
-		service.TcpService = &service.TCPService{
+		tcp.TcpService = &tcp.TCPService{
 			Cache: LRUcache,
 		}
 	}
