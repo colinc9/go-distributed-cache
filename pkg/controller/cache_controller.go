@@ -34,7 +34,6 @@ func Run() error {
 func setGinRouter() *gin.Engine {
 	// Creates default gin router with Logger and Recovery middleware already attached
 	router := gin.Default()
-
 	router.GET("/", HealthCheck)
 	router.GET("/get/:key", Get)
 	router.POST("/set/:key/value/:value",Set)
