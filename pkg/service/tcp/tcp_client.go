@@ -10,6 +10,7 @@ var TargetAddress []string
 var timeLimit time.Duration = 5 * time.Minute // timeout limit in nano sec
 
 func DialTcp(msg *Message) {
+	log.Printf("try sent message %+v", TargetAddress)
 	for _, target := range TargetAddress {
 		go func(target string) {
 			conn, err := net.DialTimeout("tcp", target, timeLimit)
