@@ -17,6 +17,7 @@ import (
 )
 
 func PeriodicSdkDiscovery() {
+	log.Printf("Start Address Pulling process")
 	ticker := time.NewTicker(5 * time.Second)
 	quit := make(chan struct{})
 	go func() {
@@ -33,6 +34,7 @@ func PeriodicSdkDiscovery() {
 }
 
 func getAddresses() {
+	log.Printf("Start Address Fetching")
 	tasks, err := getTasks()
 	if err != nil {
 		log.Printf(err.Error())
